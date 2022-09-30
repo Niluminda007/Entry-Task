@@ -6,6 +6,9 @@ const selectedAttrReducer = (state=[],action)=>{
         case "UPDATE_STORED_ATTRIBUTE":
             return state.filter( attr=> attr!== action.payload)
 
+        case "DELETE_STORED_ATTRIBUTE":
+           return state.filter ( item =>!item.includes(action.payload))
+
         default:
             return state
     }

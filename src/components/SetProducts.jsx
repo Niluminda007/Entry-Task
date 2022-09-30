@@ -16,7 +16,7 @@ class SetProducts extends Component{
             let chosen_attr = {}
             item.attributes.map( attribute=> {
                 chosen_attr[attribute.id] = ""
-                //attribute['isSelected'] = false
+                
             } )
             
             item["chosen_attr"] = chosen_attr
@@ -29,7 +29,6 @@ class SetProducts extends Component{
             <div style={{"display":"none"}}>                
             </div>                       
         );
-        
     }
 }
 

@@ -1,165 +1,38 @@
-import React, {Component} from "react";
-import AttributeColumn from "./AttributeColumn";
-import clothSizes from "./ClothSizes";
-import {connect} from "react-redux";
-import { STORE_ATTRIBUTE,UPDATE_STORED_ATTRIBUTE } from "../Actions";
+import React, { Component } from "react";
+import ValueAttribute from "./ValueAttributes";
+import ColorAttribute from "./ColorAttribute";
 
-class Attributes extends Component{
+class Attributes extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
-        this.state={
-            clicked_attribute_id:"",
-            clicked_attribute_ids:[],
-            clicked_attribute_value:"",
-            
-        }       
+        this.state = {
+            attributes: [],
+            category: "",
+            productName: "",    
+        }
     }
-    
-    item_sizes = []
 
-    handleClick=(e)=>{
-        const {id,value} = e.target;
-        
-        this.setState(
-            {
-                clicked_attribute_id:id,
-                clicked_attribute_ids:[...this.state.clicked_attribute_ids , id],
-                clicked_attribute_value :value,
-                
-
-            })
-        
-            // this.props.click(e,this.props.attr_list_id)
-
+    componentDidMount() {
+        const {  attributes, category, name }  = this.props.product
+        this.setState(prevState => ({ ...prevState, attributes: attributes, category: category, productName: name  }));    
     }
-    componentDidUpdate(){
-        if(this.state.clicked_attribute_id !== ""){
-            let id = this.state.clicked_attribute_id
 
-            let attr_id = id.split('-').pop()
-            let item_name = id.substring(0,id.indexOf('_'))
-
-            this.props.chosen_attrs.forEach( attr =>{
-               
-
-                if(attr.includes(attr_id) &&attr.includes(item_name)){
-                   
-                    this.props.update_user_choice(attr)
-
-                    if(attr.includes("Color")){
-                        document.getElementById(attr).classList.remove("cilcked_color_style")
-
+    render() {
+        let {isMiniCart} = this.props
+        return (
+            <>
+                {this.state.attributes.map((attribute, index) => {
+                    if (attribute.type === "text") {
+                        return <ValueAttribute key={index}
+                          attribute={attribute} category={this.state.category} productName={this.state.productName} isCloth={this.state.productName === "Jacket"} isMiniCart={isMiniCart} />
                     }
-                    else{
-                        document.getElementById(attr).classList.remove("cilcked_normal_style")
-                    }
-                    
-                    
-                    
-
+                    return <ColorAttribute key={index}  attribute={attribute} productName={this.state.productName} isMiniCart={isMiniCart}  />
+                })
                 }
-
-            })
-
-            
-        }
-
-    }
-
-
-    componentWillUnmount(){
-        if(this.state.clicked_attribute_id !== ""){
-
-            let updated_attrs = []
-            // this.props.chosen_attrs.forEach( attr =>{
-            //     if(attr.includes(this.props.attr_list.id)){
-                    
-            //         this.props.update_user_choice(attr)
-            //     }
-            // })
-
-            this.props.store_user_choice(this.state.clicked_attribute_id)
-        }
-        
-
-    }
-
-    componentDidMount(){
-
- /*   if(this.props.chosen_attrs.length != 0 && this.props.item_name){ */
-
-            this.props.chosen_attrs.forEach( attr => {
-                let item = document.getElementById(attr)
-                if (item != null){
-                    if(attr.includes("Color")){
-                        document.getElementById(attr).classList.add("cilcked_color_style")
-
-                    }
-                    else{
-                        document.getElementById(attr).classList.add("cilcked_normal_style")
-                    }
-                }
-                
-            });
-   /*   }  */
-        
-
-    }
-
-    render(){
-        // console.log(this.state.clicked_attribute_id)
-        
-        if(this.props.isCloth){
-            this. item_sizes = clothSizes
-            
-        }
-        else{
-            this. item_sizes = this.props.attr_list.items
-
-        }
-        return(
-            <div key={this.props.attr_list.id} className="cart-item-attributes" > 
-            <h4 className="item-attr-heading">{this.props.attr_list.name}:</h4>                  
-                <p  className="attribute-sub-items">
-                
-                    {this.item_sizes.map( (item)=>{
-    
-                         var sub_item_id = `${this.props.item_name}_${item.id}-${this.props.attr_list.id}`
-                         this.item_id = this.props.attr_list.id
-                         this.item_value = item.value
-                         
-                        {/* console.log(this.state.clicked_attribute_id === sub_item_id) */}
-                         return(
-                            <AttributeColumn item_id={this.props.item_id} key={item.id}
-                             attr_li_id={this.props.attr_list.id}
-                               onClick={this.handleClick} id={sub_item_id}
-                                 attribute={item} attr_list_id={this.props.attr_list.id}
-                                  value={this.props.attr_list.name} 
-                                  class={`${this.props.sub_attr_class} ${ this.state.clicked_attribute_id === sub_item_id ? this.props.sub_attr_clicked_colorStyle: ""} `}  isColor={this.props.checkColor} display_value={item.value} storeAttr={this.props.storeAttr} />
-                            
-                             )} )
-                    }
-                </p> 
-        </div> 
-            
+            </>
         )
     }
 }
 
-const mapStateToProps = (state)=>{
-    return {
-        chosen_attrs:state.store_attr
-    }
-
-}
-
-
-const mapDispatchToProps = ()=>{
-    return {
-        store_user_choice:STORE_ATTRIBUTE,
-        update_user_choice:UPDATE_STORED_ATTRIBUTE
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps())(Attributes);
+export default Attributes;

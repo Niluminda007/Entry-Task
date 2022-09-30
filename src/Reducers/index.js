@@ -24,7 +24,8 @@ const allReducers = combineReducers(
     change_category:activeCategoryReducer,
     get_item:getItemReducer,
     change_currency:currencyConvertReducer,
-    store_attr:selectedAttrReducer
+    store_attr:selectedAttrReducer,
+    
     
 });
 

@@ -9,9 +9,6 @@ export const REMOVE = ()=>{
         type: "REMOVE"
     }
 }
-
-
-
 export const ADD_TO_CART = (product)=>{
     return {
         type:"ADD_TO_CART",
@@ -23,6 +20,13 @@ export const REMOVE_FROM_CART = (index)=>{
     return {
         type:"REMOVE_FROM_CART",
         payload:index
+    }
+}
+
+
+export const CHECK_OUT = ()=>{
+    return {
+        type:"CHECK_OUT"
     }
 }
 
@@ -40,6 +44,13 @@ export const INCREASE_ITEM = (count)=>{
         payload:count
     }
 }
+
+export const CLEAR_ITEM_COUNT = ()=>{
+    return {
+        type: "CLEAR_ITEM_COUNT"
+    }
+}
+
 export const ADD_PRODUCT = (sum)=>{
     return {
         type:"ADD_PRODUCT",
@@ -108,3 +119,11 @@ export const UPDATE_STORED_ATTRIBUTE = (id)=>{
         payload:id
     }
 }
+
+export const DELETE_STORED_ATTRIBUTE = (id)=>{
+    return {
+        type:"DELETE_STORED_ATTRIBUTE",
+        payload:id
+    }
+}
+

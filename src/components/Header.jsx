@@ -1,115 +1,111 @@
-import React, {Component} from "react";
+import React, { Component, createRef } from "react";
 import logo from "../images/brand.svg";
 import cart from "../images/cart.svg";
-import currency from "../images/currency.svg";
-import {connect} from "react-redux";
-import {ON_CLICK,CHANGE_CATEGORY,CHANGE_CURRENCY} from "../Actions";
-import {Link} from "react-router-dom";
+import { connect } from "react-redux";
+import { ON_CLICK, CHANGE_CATEGORY} from "../Actions";
+import { Link } from "react-router-dom";
+import MiniCart from "../pages/MiniCart";
+import CurrencyDropDown from "./CurrencyDropDown";
 
-class Header extends Component{
-    constructor(props){
+
+
+
+class Header extends Component {
+    constructor(props) {
         super(props);
-        this.state={           
-            category_id:"all",
-            currency_id:"0"
+        this.miniCartRef = createRef()
+        this.state = {
+            category_id: "all",
+            currency_id: "0",
+            is_dropDown_clicked: false
            
+
         };
-
     }
-    currency_url = {backgroundImage: 'url(' + currency + ')', backgroundRepeat: "no-repeat" };
-    cart_url = {backgroundImage: 'url(' + cart + ')' , backgroundRepeat: "no-repeat"};
-    category_style = {color:"#5ECE7B" , borderBottom:"solid 2px #5ECE7B"};
 
-    
-    handleClick = (e)=>{
-        const {id} = e.target;
+    cart_url = { backgroundImage: 'url(' + cart + ')', backgroundRepeat: "no-repeat" };
+    category_style = { color: "#5ECE7B", borderBottom: "solid 2px #5ECE7B" };
+    categories = ["all", "clothes","tech"]
+
+
+    componentDidMount() {
+        document.addEventListener("mousedown", this.handleClickOutside);
+    }
+    componentWillUnmount() {
+      document.removeEventListener("mousedown", this.handleClickOutside);
+    }
+
+    handleClickOutside = (event) => {
+        if (
+          this.miniCartRef.current &&
+          !this.miniCartRef.current.contains(event.target)
+        ) {
+          this.props.mini_cart_click()
+        }
+      };
+
+
+    handleCategory = (e) => {
+        const { id } = e.target;
         this.props.change_category(id)
-        
-        
-
         this.setState({
-            category_id:id
+            category_id: id
         });
+    }
+
+    handle_overlay = (e) => {
+        const { id } = e.target
        
-
+        if (id === "overlay") {
+            this.props.mini_cart_click()
+        }
+      
     }
 
-
-    handleCurrency = e=>{
-        document.getElementById("currency_content").classList.toggle("show")
-    }
-
-
-    handleCurrency_convert = e=>{
-        const {id} = e.target
-        this.setState({
-            currency_id:id
-        })
-
-        this.props.change_currency(parseInt(id))
-
-    }
-
-    handleCart = ()=>{
+    handleCart = () => {
         this.props.mini_cart_click()
     }
-    
 
-    render(){
-        
-        
-        return(
-
+    render() {
+        return (
             <div className="header">
-            <nav className="category-nav">
-            
-                <ul className="category-links">
-                
-                <Link to={`/ItemArea/${this.state.category_id}`}><li className="category-item" id="all" onClick={this.handleClick} style={this.state.category_id === "all" ? this.category_style : null } >All</li></Link>
-                <Link to={`/ItemArea/${this.state.category_id}`}><li className="category-item" id="clothes" onClick={this.handleClick} style={this.state.category_id === "clothes" ? this.category_style : null} >Clothes</li></Link>
-                <Link to={`/ItemArea/${this.state.category_id}`}><li className="category-item" id="tech" onClick={this.handleClick} style={this.state.category_id === "tech" ? this.category_style : null}>Tech</li></Link>
-                </ul>
+                <nav className="category-nav">
 
-            </nav>
-            <img className="brand" src={logo} alt="brand"></img>
-            <span>
+                    <ul className="category-links">
 
-            <div  className="currency">
-            <button className="currency-btn" style={this.currency_url} onClick={this.handleCurrency}> </button>
-            
-            <div id="currency_content" className="dropdown-content">
-                <li  id="0" className="currency-item"  onClick={this.handleCurrency_convert}>$ USD </li>
-                <li  id="1" className="currency-item" onClick={this.handleCurrency_convert}>£ EUR </li>
-                <li  id="2" className="currency-item" onClick={this.handleCurrency_convert}>A$ AUD</li>
-                <li  id="3" className="currency-item" onClick={this.handleCurrency_convert}>¥ JPY </li>
-                <li  id="4" className="currency-item" onClick={this.handleCurrency_convert}>₽ RUB</li>
-            </div>  
+                        <Link to={`/ItemArea/${this.categories[0]}`}><li className="category-item" id="all" onClick={this.handleCategory} style={this.state.category_id === "all" ? this.category_style : null} >All</li></Link>
+                        <Link to={`/ItemArea/${this.categories[1]}`}><li className="category-item" id="clothes" onClick={this.handleCategory} style={this.state.category_id === "clothes" ? this.category_style : null} >Clothes</li></Link>
+                        <Link to={`/ItemArea/${this.categories[2]}`}><li className="category-item" id="tech" onClick={this.handleCategory} style={this.state.category_id === "tech" ? this.category_style : null}>Tech</li></Link>
+                    </ul>
+                </nav>
+                    <img className="brand" src={logo} alt="brand"></img>
+                <span>
+                    <CurrencyDropDown />
+                    <button className="cart-btn" style={this.cart_url} onClick={this.handleCart}  ><span className="basket_count_shape"  ><p className="basket_count_number">{this.props.item_count}</p></span></button>
+
+                </span>
+                {this.props.mini_cart_state && <div onClick={this.handle_overlay}  id="overlay" ref={this.miniCartRef}>
+                    <MiniCart />
+
+                </div>}
             </div>
-            <button className="cart-btn" style={this.cart_url} onClick={this.handleCart}  ><span className="basket_count_shape"  ><p className="basket_count_number">{this.props.item_count}</p></span></button>
 
-            </span>
-            
-            
-            </div>
-            
         );
     }
 }
 
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state) => {
     return {
-        item_count:state.increase_item,
-        
+        item_count: state.increase_item,
+        mini_cart_state: state.mini_cart_state,
+        category_id: state.change_category
     }
 }
-const mapDispatchToProps = ()=>{
-    return{
-        mini_cart_click:ON_CLICK,
-        change_category:CHANGE_CATEGORY,
-        change_currency:CHANGE_CURRENCY,
-        
-
+const mapDispatchToProps = () => {
+    return {
+        mini_cart_click: ON_CLICK,
+        change_category: CHANGE_CATEGORY,
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps())(Header);
+export default connect(mapStateToProps, mapDispatchToProps())(Header);

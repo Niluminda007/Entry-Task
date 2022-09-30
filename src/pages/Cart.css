@@ -50,6 +50,7 @@
     position: relative;
     display: block;
     width: 1403px;
+    margin-top: 0px;
 }
 
 .cart-item-name{
@@ -69,21 +70,25 @@
     display: flex;
     position: relative;
     flex-direction: column;
+    margin-bottom: 15px;
+    
     
     
 }
 
 .item-attr-heading{
     position: relative;
-    
     margin: 0;
     font-size:1.3rem ;
+    margin-bottom: 15px;
 }
 .attribute-sub-items{
     display: flex;
     /* justify-content: space-between; */
     /* display: inline-block; */
    position: relative;
+   
+   
    
 
 }
@@ -104,6 +109,7 @@
     font-family: 'Source Sans Pro';
     font-weight: 500;
     z-index: 1;
+    cursor: pointer;
     
     
 
@@ -116,9 +122,14 @@
     text-align: center;
     position: relative;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 
+.attribute-sub-item-color:hover,.attribute-sub-item-normal:hover{
+    transition: all 0.1s ease;
+    box-shadow: 5px 4px 5px 0px rgba(179,181,179,0.75);
+}
 
 
 .sub-item-text{
@@ -178,7 +189,7 @@
 .footer-item-container{
     width: 279px;
     height: 159px;
-    margin-top: 32px;
+    margin: 32px  0 229px 0;
     text-align: left;
     font-size: 1.5rem;
     line-height:1.6rem ;
@@ -193,7 +204,15 @@
     color: #FFFFFF;
     background-color:#5ECE7B;
     border: none;
+    cursor: pointer;
+    
 }
+
+.order-btn:hover{
+    transition: all 0.1s ease;
+    box-shadow: 5px 4px 5px 0px rgba(179,181,179,0.75);
+}
+
 .item-total {
     font-weight: 500;
 }

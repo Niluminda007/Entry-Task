@@ -1,16 +1,14 @@
 .img-slider{
-    
     width:250px ;
     height: 323px;
     position: absolute;
     left:70px;
-
-      
-    
 }
+
 .slider-img{
     width:250px ;
     height: 323px;
+    object-fit: contain;
 }
 
 #right-arrow,#left-arrow{

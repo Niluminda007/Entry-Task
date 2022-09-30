@@ -1,5 +1,4 @@
 
-
 const miniCartReducer = (clicked=false,action)=>{
     switch(action.type){
         case "ON_CLICK":
