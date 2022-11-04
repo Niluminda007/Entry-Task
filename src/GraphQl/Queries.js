@@ -1,37 +1,35 @@
-import {gql} from "apollo-boost";
+import { gql } from "apollo-boost";
 
-const ITEM_QUERY =  gql`
-{
-  categories{
-    products{
-      id
-      name
-      inStock
-      gallery
-      description
-      category
-      attributes{
+const ITEM_QUERY = gql`
+  {
+    categories {
+      products {
         id
         name
-        type
-        items{
-          displayValue
-          value
+        inStock
+        gallery
+        description
+        category
+        attributes {
           id
+          name
+          type
+          items {
+            displayValue
+            value
+            id
+          }
         }
-        
-      }
-      prices{
-        currency{
-          label
-          symbol
+        prices {
+          currency {
+            label
+            symbol
+          }
+          amount
         }
-        amount
+        brand
       }
-      brand
     }
   }
-}
-
 `;
 export default ITEM_QUERY;

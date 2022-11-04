@@ -15,25 +15,11 @@ body.modal-open {
     display: flex;
     flex-direction: column;
     pointer-events: all;
-    overflow-y: auto
+    overflow-y: auto;
+    align-items: center;
       
 }
 
-
-
-#overlay{
-    position: fixed;
-    display: flex;
-    top: 115px;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    z-index: 10;
-    background-color:  rgba(57, 55, 72, 0.22);
-    transition: all 0.5s linear;
-    pointer-events:stroke;
-    
-}
 .mini-cart-item{
     width:350px ;
     height: auto;
@@ -46,11 +32,12 @@ body.modal-open {
     font-weight: 300;
 }
 .mini-item-img{
-    height: 190px;
+    height: auto;
     width: 120px;
     position: absolute;
     right: 0px;
     top:0px;
+    max-height: 160px;
 
 }
 .mini-cart-item-brand{
@@ -62,9 +49,26 @@ body.modal-open {
     position: relative;
     top: 0;
     text-align: left;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.mini-cart-item-header p{
+    margin-top: 0;
+   margin-bottom: 10px;
+}
+
+.mini-cart-item-attributes{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    margin-bottom: 8px;
 }
 .mini-cart-body{
     position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 
 }
 
@@ -84,6 +88,7 @@ body.modal-open {
     border: 1px solid #1D1F22;
     background-color: #FFFFFF;
     font-size: 1.1rem;
+    cursor: pointer;
    
 }
 .mini-item-count-change-btn:hover {
@@ -93,7 +98,7 @@ body.modal-open {
 .mini-item-counter-container{
     margin-right: 8px;
     position: relative;
-    height: 190px;
+    height: auto;
     width: 24px;
     display: flex;
     flex-direction: column;
@@ -101,12 +106,16 @@ body.modal-open {
     text-align: center;
     font-size: 1rem;
     font-weight: 500;
+    min-height: 150px;
+    max-height: 180px;
     
 }
+
+
 .mini-cart-header{
-    width: 318px;
+    width: 350px;
     text-align: left;
-    margin: 0 16px 32px 16px;
+    margin: 0 0 32px 0;
 }
 .mini-cart-heading{
     font-weight: 700;
@@ -115,13 +124,13 @@ body.modal-open {
     font-weight: 600;
 }
 .mini-cart-item-price{
-    font-weight: 500;
+    font-weight: 600;
 }
 .mini-cart-footer{
-    width: 318px;
+    width: 350px;
     height: auto;
     text-align: left;
-    margin: 0 16px 32px 16px;
+    margin: 40px 0 32px 0;
     position: relative;
     font-weight: 500;
 
@@ -154,7 +163,7 @@ body.modal-open {
     padding: 0;
     color: #1D1F22;
     font-family: 'Source Sans Pro';
-    font-weight: 400;
+    font-weight: 500;
     z-index: 1;
     cursor: pointer;
     
@@ -192,7 +201,7 @@ body.modal-open {
     align-items: center;
     font-weight: 700;
     font-size: 0.8rem;
-    margin: 10px 20px 10px 0;
+    margin: 10px 0 10px 0;
     font-family: 'Raleway', sans-serif;
     cursor: pointer;
     
@@ -206,7 +215,7 @@ body.modal-open {
     border: 1px solid #1D1F22;
     width: 140px;
     height: 43px;
-    margin: 10px 20px 10px 0;
+    margin: 10px 0 10px 0;
     font-family: 'Raleway', sans-serif;
     cursor: pointer;
     
@@ -221,4 +230,20 @@ body.modal-open {
 .mini-attribute-sub-item-color:hover,.mini-attribute-sub-item-normal:hover,.mini-cart-cart-btn:hover,.mini-cart-checkOut-btn:hover{
     transition: all 0.1s ease;
     box-shadow: 5px 4px 5px 0px rgba(179,181,179,0.75);
+}
+
+.mini-cart-overlay{
+    position: fixed;
+    display: flex;
+    top: 115px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    background-color:  rgba(57, 55, 72, 0.22);
+    transition: all 0.5s linear;
+    pointer-events:stroke;
+    margin: 0 auto;
+    max-width: 1980px;
+    width: 100%;
 }

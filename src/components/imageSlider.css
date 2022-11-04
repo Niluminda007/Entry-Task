@@ -1,27 +1,29 @@
-.img-slider{
-    width:250px ;
-    height: 323px;
-    position: absolute;
-    left:70px;
+.img-slider {
+  width: 250px;
+  height: 323px;
+  position: absolute;
+  left: 70px;
 }
 
-.slider-img{
-    width:250px ;
-    height: 323px;
-    object-fit: contain;
+.slider-img {
+  width: 250px;
+  height: 323px;
+  object-fit: contain;
 }
 
-#right-arrow,#left-arrow{
-   margin:0 8px;
-   background: rgba(0, 0, 0, 0.73);
-   color: #fff;
-   border: none;
-   height: 24px;
-   width: 24px;
+#right-arrow,
+#left-arrow {
+  margin: 0 8px;
+  background: rgba(0, 0, 0, 0.73);
+  color: #fff;
+  border: none;
+  height: 24px;
+  width: 24px;
+  cursor: pointer;
 }
-.slide-arrow-container{
-    position: absolute;
-    padding: 10px;
-    bottom: 16px;
-    right: 16px;
+.slide-arrow-container {
+  position: absolute;
+  padding: 10px;
+  bottom: 16px;
+  right: 16px;
 }

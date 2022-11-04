@@ -1,40 +1,32 @@
-import React,{Component} from "react";
+import React, { PureComponent } from "react";
 import "./product.css";
-import { graphql } from "react-apollo";
-import PRODUCT_FETCH_QUERY from "../GraphQl/single_product";
 import { withRouter } from "react-router-dom";
-import Product from "./Product"
+import Product from "./Product";
+import { connect } from "react-redux";
 
-class ProductPage extends Component{
-    constructor(props){
-        super(props)
-        this.state = {
-            product_id:this.props.match.params.id
-        }
+class ProductPage extends PureComponent {
+  render() {
+    const {
+      prodcuts: { array: prodcuts },
+      match: {
+        params: { id },
+      },
+    } = this.props;
+    const prodcut = prodcuts.find((item) => {
+      if (item.id === id) return item;
+      return "";
+    });
+    if (prodcut) {
+      return <Product product={prodcut} />;
+    } else {
+      return "loading";
     }
-    render(){
-        let data = this.props.data
-        if(data.loading){
-            return  "Loading"
-        }
-        else{
-            let {product} = data
-            return(
-                     
-                <Product product={product} />       
-            
-                )
-        }     
-    }
+  }
 }
+const mapStateToProps = (state) => {
+  return {
+    prodcuts: state.init_products,
+  };
+};
 
-export default withRouter(graphql(PRODUCT_FETCH_QUERY, {
-    options: (props) => {
-        const {id} = props.match.params;
-        return {
-            variables: {
-                id
-            }
-        }
-    }
-})(ProductPage));
+export default withRouter(connect(mapStateToProps, null)(ProductPage));
