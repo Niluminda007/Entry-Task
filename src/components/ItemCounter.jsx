@@ -1,12 +1,6 @@
 import React, { PureComponent } from "react";
 import { connect } from "react-redux";
-import {
-  INCREASE_ITEM,
-  ADD_PRODUCT,
-  REMOVE_FROM_CART,
-  UPDATE_CART,
-  DELETE_STORED_ATTRIBUTE,
-} from "../Actions";
+import { INCREASE_ITEM, REMOVE_FROM_CART, UPDATE_CART } from "../Actions";
 import PropTypes from "prop-types";
 class ItemCounter extends PureComponent {
   constructor(props) {
@@ -16,46 +10,44 @@ class ItemCounter extends PureComponent {
       sum: this.props.price,
     };
   }
+
   handleIncrease = (e) => {
     this.props.increase_item(1);
-    this.props.add_product(this.props.price);
+    this.setState((prevState) => ({
+      ...prevState,
+      counter: this.state.counter + 1,
+      sum: this.state.sum + this.props.price,
+    }));
 
-    this.setState((prevState) => {
-      return {
-        counter: prevState.counter + 1,
-        sum: prevState.sum + this.props.price,
-      };
-    });
-    let { item_id } = this.props;
+    const { item_id } = this.props;
 
-    let y = 0;
+    let item_index = 0;
 
-    let [item] = this.props.cart_products.items.filter((item, index) => {
-      if (item.id === item_id) {
-        y = index;
+    const [item] = this.props.cart_products.items.filter((item, index) => {
+      if (item.cart_item_id === item_id) {
+        item_index = index;
       }
-      return item.id === item_id;
+      return item.cart_item_id === item_id;
     });
     item.count = this.state.counter + 1;
 
     this.props.update_cart({
       id: item_id,
       product: item,
-      index: y,
+      index: item_index,
     });
   };
 
   handleDecrease = (e) => {
     const { item_id } = this.props;
-
-    let [item] = this.props.cart_products.items.filter((item) => {
-      return item.id === item_id;
+    this.props.increase_item(-1);
+    const item = this.props.cart_products.items.find((item) => {
+      return item.cart_item_id === item_id;
     });
 
     if (this.state.counter < 2) {
       this.props.remove_from_cart(item_id);
-      this.props.delete_user_choice(item.name);
-      this.setState({ counter: 0 });
+      this.setState({ coutner: 0 });
     } else {
       this.setState((prevState) => {
         return {
@@ -66,9 +58,6 @@ class ItemCounter extends PureComponent {
       item.count = this.state.counter - 1;
       this.props.update_cart({ id: item_id, product: item });
     }
-
-    this.props.increase_item(-1);
-    this.props.add_product(-this.props.price);
   };
   render() {
     return (
@@ -118,10 +107,8 @@ ItemCounter.propTypes = {
 const mapDispatchToProps = () => {
   return {
     increase_item: INCREASE_ITEM,
-    add_product: ADD_PRODUCT,
     remove_from_cart: REMOVE_FROM_CART,
     update_cart: UPDATE_CART,
-    delete_user_choice: DELETE_STORED_ATTRIBUTE,
   };
 };
 

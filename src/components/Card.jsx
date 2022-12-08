@@ -3,7 +3,6 @@ import CommonCart from "../images/CommonCart.svg";
 import { connect } from "react-redux";
 import {
   INCREASE_ITEM,
-  ADD_PRODUCT,
   ADD_TO_CART,
   FETCH_PRODUCT_ID,
   FETCH_ITEM,
@@ -22,33 +21,40 @@ class Card extends PureComponent {
     this.props.fetch_item(this.props.product);
   };
 
-  handleAdd = (e) => {
-    const { id } = e.target;
-    const product_id = id.replace("-common-cart", "");
+  handleAdd = () => {
     this.props.increase_item(1);
-    this.props.add_product(this.props.price.amount);
-
-    var items = this.props.products.array;
-    let is_added = false;
-
-    this.props.cart_items["items"].forEach((cart_item) => {
-      if (cart_item.id === product_id) {
-        is_added = true;
-        cart_item.count += 1;
-        this.props.update_item({ id: cart_item.id, product: cart_item });
+    const item = this.props.product;
+    if (Object.values(item.chosen_attr).every((val, i, arr) => val === "")) {
+      Object.keys(item.chosen_attr).forEach((heading) => {
+        item.attributes.forEach((attr) => {
+          if (heading === attr.id) {
+            item.chosen_attr[heading] = attr.items[0]["value"];
+          }
+        });
+      });
+    }
+    let alreadyInCart = false;
+    this.props.cart_items.items.forEach((cart_item) => {
+      if (cart_item.id === item.id) {
+        if (
+          Object.entries(cart_item.chosen_attr).toString() ===
+          Object.entries(item.chosen_attr).toString()
+        ) {
+          alreadyInCart = true;
+          cart_item.count += 1;
+          this.props.update_item({
+            id: cart_item.id,
+            product: cart_item,
+          });
+        }
       }
     });
 
-    if (!is_added) {
-      var added_Item = items.filter((item) => {
-        return item.id === product_id;
-      });
-      let [item] = added_Item;
-      item["count"] = 1;
+    if (!alreadyInCart) {
+      item.count = 1;
       this.props.add_to_cart(item);
     }
   };
-
   render() {
     return (
       <div
@@ -120,7 +126,6 @@ const mapDispatchToProps = () => {
   return {
     add_to_cart: ADD_TO_CART,
     increase_item: INCREASE_ITEM,
-    add_product: ADD_PRODUCT,
     fetch_item_id: FETCH_PRODUCT_ID,
     fetch_item: FETCH_ITEM,
     update_item: UPDATE_CART,

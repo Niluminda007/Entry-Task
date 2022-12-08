@@ -1,7 +1,5 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { STORE_ATTRIBUTE, UPDATE_STORED_ATTRIBUTE } from "../Actions";
 import ColorButton from "./ColorButton";
 
 class ColorAttribute extends PureComponent {
@@ -75,6 +73,7 @@ class ColorAttribute extends PureComponent {
                 className={className}
                 onClick={this.handleClick}
                 disabled={!avalability || clickable}
+                selected_attrs={this.props.selected_attrs}
               />
             );
           })}
@@ -90,18 +89,7 @@ ColorAttribute.propTypes = {
   isMiniCart: PropTypes.bool,
   isCart: PropTypes.bool,
   onClick: PropTypes.func,
+  selected_attrs: PropTypes.object,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    chosen_attrs: state.store_attr,
-  };
-};
-
-const mapDispatchToProps = () => {
-  return {
-    store_user_choice: STORE_ATTRIBUTE,
-    update_user_choice: UPDATE_STORED_ATTRIBUTE,
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps())(ColorAttribute);
+export default ColorAttribute;

@@ -1,10 +1,17 @@
+*, *::after, *::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 
 /* For the Body */
 body {
     background-color: #FFFFFF;
     font-family: 'Poppins', sans-serif;
-    margin: 0px;
+    margin: 0;
+    padding:0;
     justify-content: center;
+    
 }
 
 
@@ -26,10 +33,10 @@ li, a , button {
     justify-content: space-between;
     position: fixed;
     align-items: center;
-    padding-top: 30px;
     width: 1403px;
     z-index: 200;
     background-color: #FFFFFF;
+    margin-bottom: 3rem;
 }
 
 .category-nav{
@@ -69,7 +76,7 @@ li, a , button {
 }
 .category-links li {
     display: inline-block;
-    padding: 0px 20px;
+    padding: 18px 20px;
 }
 
 
@@ -128,7 +135,7 @@ li, a , button {
 
 .basket_count_number{
     position: relative;
-    bottom: 17px;
+    top: 2px;
 }
 
 
@@ -205,7 +212,7 @@ li, a , button {
 }
 .category-container{
     position: relative;
-    top: 100px;
+    top: 9rem;
 
 }
 

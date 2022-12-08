@@ -13,9 +13,9 @@ class Cart extends PureComponent {
         {items.map((item) => {
           return (
             <CartCard
-              key={item.id}
+              key={item.cart_item_id}
               product={item}
-              id={item.id}
+              id={item.cart_item_id}
               images={item.gallery}
               item_name={item.name}
               category={item.category}
@@ -31,6 +31,11 @@ class Cart extends PureComponent {
     );
   }
   render() {
+    if (this.props.mini_cart_state) {
+      document.body.classList.add("modal-open");
+    } else {
+      document.body.classList.remove("modal-open");
+    }
     return (
       <div>
         <hr className="cart-item-line" />
@@ -45,6 +50,8 @@ const mapStateToProps = (state) => {
   return {
     products: state.add_toCart,
     currency_id: state.change_currency.id,
+    items: state.add_toCart,
+    mini_cart_state: state.mini_cart_state,
   };
 };
 

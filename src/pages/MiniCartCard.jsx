@@ -35,7 +35,7 @@ class MiniCartCard extends PureComponent {
             product_id={this.props.id}
             isMiniCart={true}
             count={this.props.count}
-            item_id={this.props.id}
+            item_id={this.props.product.cart_item_id}
           />
           <img
             className="mini-item-img"

@@ -1,13 +1,13 @@
 .img-slider {
-  width: 250px;
-  height: 323px;
+  width: 200px;
+  height: 288px;
   position: absolute;
   left: 70px;
 }
 
 .slider-img {
-  width: 250px;
-  height: 323px;
+  width: 200px;
+  height: 288px;
   object-fit: contain;
 }
 

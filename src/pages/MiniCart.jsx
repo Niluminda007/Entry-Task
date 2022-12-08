@@ -3,12 +3,7 @@ import "./miniCart.css";
 import { connect } from "react-redux";
 import MiniCartCard from "./MiniCartCard";
 import { Link } from "react-router-dom";
-import {
-  ON_CLICK,
-  CHECK_OUT,
-  CLEAR_ITEM_COUNT,
-  GET_PRODUCT_SUM,
-} from "../Actions";
+import { ON_CLICK, CHECK_OUT, CLEAR_ITEM_COUNT } from "../Actions";
 
 class MiniCart extends PureComponent {
   constructor(props) {
@@ -49,13 +44,25 @@ class MiniCart extends PureComponent {
       alert("Checked Out Successfully");
     }
   };
+  getProdcutSum = () => {
+    const {
+      products,
+      currency: { id },
+    } = this.props;
+    let total = 0;
+    const { items } = products;
+    if (items.length > 0) {
+      items.forEach((item) => {
+        total += item.prices[id].amount * item.count;
+      });
+    }
+    return total;
+  };
+
   render() {
     const { id: currency_id, currencyItems } = this.props.currency;
-    const { product_sum, get_prodcut_sum, products } = this.props;
-    get_prodcut_sum({
-      products: products,
-      currencyState: currency_id,
-    });
+    const product_sum = this.getProdcutSum();
+
     return (
       <div
         className="mini-cart-overlay"
@@ -77,7 +84,7 @@ class MiniCart extends PureComponent {
               return (
                 <MiniCartCard
                   product={item}
-                  key={item.id}
+                  key={item.cart_item_id}
                   id={item.id}
                   images={item.gallery}
                   item_name={item.name}
@@ -137,7 +144,6 @@ const mapDispatchToProps = () => {
     mini_cart_click: ON_CLICK,
     products_check_out: CHECK_OUT,
     empty_basket_count: CLEAR_ITEM_COUNT,
-    get_prodcut_sum: GET_PRODUCT_SUM,
   };
 };
 

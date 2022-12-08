@@ -1,6 +1,8 @@
 import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { CHECK_OUT, CLEAR_ITEM_COUNT, GET_PRODUCT_SUM } from "../Actions";
+import { CHECK_OUT, CLEAR_ITEM_COUNT } from "../Actions";
+
 class CartFooter extends PureComponent {
   handleCheckOut = () => {
     if (this.props.product_count > 0) {
@@ -10,15 +12,24 @@ class CartFooter extends PureComponent {
     }
   };
 
-  render() {
-    const { id: currency_id, currencyItems } = this.props.currency;
-    const { get_prodcut_sum, product_sum, items } = this.props;
+  getProdcutSum = () => {
+    const {
+      items: products,
+      currency: { id },
+    } = this.props;
+    let total = 0;
+    const { items } = products;
     if (items.length > 0) {
-      get_prodcut_sum({
-        products: items,
-        currencyState: currency_id,
+      items.forEach((item) => {
+        total += item.prices[id].amount * item.count;
       });
     }
+    return total;
+  };
+
+  render() {
+    const { id: currency_id, currencyItems } = this.props.currency;
+    const product_sum = this.getProdcutSum();
     return (
       <div className="footer-item-container">
         <p className="footer-info">
@@ -59,7 +70,17 @@ const mapDispatchToProps = () => {
   return {
     products_check_out: CHECK_OUT,
     empty_basket_count: CLEAR_ITEM_COUNT,
-    get_prodcut_sum: GET_PRODUCT_SUM,
   };
 };
+
+CartFooter.propTypes = {
+  item_count: PropTypes.number,
+  currency: PropTypes.object,
+  items: PropTypes.object,
+  product_count: PropTypes.any,
+  product_sum: PropTypes.number,
+  products_check_out: PropTypes.func,
+  empty_basket_count: PropTypes.func,
+};
+
 export default connect(mapStateToProps, mapDispatchToProps())(CartFooter);

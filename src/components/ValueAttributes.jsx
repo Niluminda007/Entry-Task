@@ -1,11 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import {
-  STORE_ATTRIBUTE,
-  UPDATE_CART,
-  UPDATE_STORED_ATTRIBUTE,
-} from "../Actions";
 import ValueButton from "./ValueButton";
 
 class ValueAttributes extends React.PureComponent {
@@ -72,6 +66,8 @@ class ValueAttributes extends React.PureComponent {
               <ValueButton
                 key={index}
                 value={displayValue}
+                selected_attrs={this.props.selected_attrs}
+                chosen_attr={this.props.chosen_attr}
                 id={sub_item_id}
                 className={className}
                 onClick={this.handleClick}
@@ -95,19 +91,4 @@ ValueAttributes.propTypes = {
   selected_attrs: PropTypes.object,
 };
 
-const mapStateToProps = (state) => {
-  return {
-    chosen_attrs: state.store_attr,
-    mini_cart_state: state.mini_cart_state,
-  };
-};
-
-const mapDispatchToProps = () => {
-  return {
-    store_user_choice: STORE_ATTRIBUTE,
-    update_user_choice: UPDATE_STORED_ATTRIBUTE,
-    update_cart: UPDATE_CART,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps())(ValueAttributes);
+export default ValueAttributes;

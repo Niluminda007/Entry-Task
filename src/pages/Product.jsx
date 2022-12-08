@@ -3,14 +3,7 @@ import Attributes from "../components/Attributes";
 import ImageReel from "./ImageReel";
 import { connect } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
-import {
-  INCREASE_ITEM,
-  ADD_PRODUCT,
-  ADD_TO_CART,
-  FETCH_PRODUCT_ID,
-  FETCH_ITEM,
-  UPDATE_CART,
-} from "../Actions";
+import { INCREASE_ITEM, ADD_TO_CART, UPDATE_CART } from "../Actions";
 import PropTypes from "prop-types";
 
 class Product extends PureComponent {
@@ -20,19 +13,33 @@ class Product extends PureComponent {
       selected_attrs: [],
     };
   }
+
   handleAddToCart = () => {
     this.props.increase_item(1);
-    this.props.add_product(this.props.product.prices[0].amount);
     const item = this.getUpdatedProdcut();
+    if (Object.values(item.chosen_attr).every((val, i, arr) => val === "")) {
+      Object.keys(item.chosen_attr).forEach((heading) => {
+        item.attributes.forEach((attr) => {
+          if (heading === attr.id) {
+            item.chosen_attr[heading] = attr.items[0]["value"];
+          }
+        });
+      });
+    }
     let alreadyInCart = false;
     this.props.cart_items.items.forEach((cart_item) => {
       if (cart_item.id === item.id) {
-        alreadyInCart = true;
-        item.count += 1;
-        this.props.update_cart({
-          id: cart_item.id,
-          product: item,
-        });
+        if (
+          Object.entries(cart_item.chosen_attr).toString() ===
+          Object.entries(item.chosen_attr).toString()
+        ) {
+          alreadyInCart = true;
+          cart_item.count += 1;
+          this.props.update_cart({
+            id: cart_item.id,
+            product: cart_item,
+          });
+        }
       }
     });
 
@@ -41,7 +48,6 @@ class Product extends PureComponent {
       this.props.add_to_cart(item);
     }
   };
-
   storeUserChoice = (value, attr_heading) => {
     this.setState((state) => {
       state.selected_attrs.forEach((attr, index) => {
@@ -60,12 +66,7 @@ class Product extends PureComponent {
 
   getUpdatedProdcut = () => {
     const { selected_attrs } = this.state;
-
-    const {
-      products: { array },
-    } = this.props;
-    const { id } = this.props.product;
-    const product = array.find((item) => item.id === id);
+    let product = { ...this.props.product };
     let selected_attrs_obj = {};
     selected_attrs.forEach((attr) => {
       selected_attrs_obj = { ...selected_attrs_obj, ...attr };
@@ -74,10 +75,15 @@ class Product extends PureComponent {
     Object.keys(product.chosen_attr).forEach((key) => {
       Object.keys(selected_attrs_obj).forEach((heading) => {
         if (key === heading) {
-          product.chosen_attr[key] = selected_attrs_obj[heading];
+          const tempAttribute = {
+            ...product.chosen_attr,
+            [key]: selected_attrs_obj[heading],
+          };
+          product = { ...product, chosen_attr: tempAttribute };
         }
       });
     });
+
     return product;
   };
 
@@ -141,9 +147,6 @@ const mapDispatchToProps = () => {
   return {
     add_to_cart: ADD_TO_CART,
     increase_item: INCREASE_ITEM,
-    add_product: ADD_PRODUCT,
-    fetch_item_id: FETCH_PRODUCT_ID,
-    fetch_item: FETCH_ITEM,
     update_cart: UPDATE_CART,
   };
 };

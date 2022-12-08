@@ -30,7 +30,9 @@ class ImageSlider extends PureComponent {
 
   componentDidMount() {
     const { items } = this.props.cart_products;
-    const { gallery } = items.find((product) => product.id === this.props.id);
+    const { gallery } = items.find(
+      (product) => product.cart_item_id === this.props.id
+    );
 
     this.setState((prevState) => ({
       ...prevState,

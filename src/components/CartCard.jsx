@@ -9,10 +9,10 @@ import PropTypes from "prop-types";
 class CartCard extends PureComponent {
   storeAttr = (e, attr_id) => {
     const { value } = e.target;
-    let item_id = this.props.id;
-    let { items } = this.props.cart_products;
+    const item_id = this.props.id;
+    const { items } = this.props.cart_products;
 
-    let [selected_item] = items.filter((item) => item.id === item_id);
+    const [selected_item] = items.filter((item) => item.id === item_id);
 
     selected_item.chosen_attr[attr_id] = value;
     this.props.update_cart({ id: item_id, product: selected_item });

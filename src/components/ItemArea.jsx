@@ -10,13 +10,13 @@ class ItemArea extends PureComponent {
   products = [];
 
   displayItems() {
-    var data = this.props.data;
+    const data = this.props.data;
 
     if (data.loading) {
       return <div>Loading</div>;
     } else {
       this.products = data.categories[0].products;
-      let category = this.props.category_id;
+      const category = this.props.category_id;
 
       return (
         <div className="item-container">

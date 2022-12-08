@@ -17,7 +17,14 @@ body.modal-open {
     pointer-events: all;
     overflow-y: auto;
     align-items: center;
+
       
+}
+
+@media screen and (min-width: 2100px) {
+    .mini-cart-container{
+        right: 15%;
+    }
 }
 
 .mini-cart-item{
@@ -244,6 +251,5 @@ body.modal-open {
     transition: all 0.5s linear;
     pointer-events:stroke;
     margin: 0 auto;
-    max-width: 1980px;
     width: 100%;
 }

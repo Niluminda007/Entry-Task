@@ -29,7 +29,7 @@ class Attributes extends PureComponent {
                 isMiniCart={isMiniCart}
                 avalability={avalability}
                 onClick={this.props.onClick}
-                selected_attrs={this.props.chosen_attrs}
+                selected_attrs={this.props.product.chosen_attr}
                 isCart={isCart}
               />
             );
@@ -43,6 +43,7 @@ class Attributes extends PureComponent {
               avalability={avalability}
               onClick={this.props.onClick}
               isCart={isCart}
+              selected_attrs={this.props.product.chosen_attr}
             />
           );
         })}

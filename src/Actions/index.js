@@ -49,20 +49,6 @@ export const CLEAR_ITEM_COUNT = () => {
   };
 };
 
-export const ADD_PRODUCT = (sum) => {
-  return {
-    type: "ADD_PRODUCT",
-    payload: sum,
-  };
-};
-
-export const GET_PRODUCT_SUM = (items) => {
-  return {
-    type: "GET_PRODUCT_SUM",
-    payload: items,
-  };
-};
-
 export const ON_CLICK = () => {
   return {
     type: "ON_CLICK",
@@ -107,27 +93,6 @@ export const FETCH_ITEM = (product) => {
 export const CHANGE_CURRENCY = (id) => {
   return {
     type: "CHANGE_CURRENCY",
-    payload: id,
-  };
-};
-
-export const STORE_ATTRIBUTE = (id) => {
-  return {
-    type: "STORE_ATTRIBUTE",
-    payload: id,
-  };
-};
-
-export const UPDATE_STORED_ATTRIBUTE = (id) => {
-  return {
-    type: "UPDATE_STORED_ATTRIBUTE",
-    payload: id,
-  };
-};
-
-export const DELETE_STORED_ATTRIBUTE = (id) => {
-  return {
-    type: "DELETE_STORED_ATTRIBUTE",
     payload: id,
   };
 };

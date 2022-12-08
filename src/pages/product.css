@@ -104,9 +104,7 @@
 }
 .normal-product-img-container{
     width: 100px;
-    height: auto;
-    position: relative;
-    
+    height: auto;    
 }
 .main-img{
     height: 511px;
@@ -115,12 +113,11 @@
 }
 
 .normal-img{
-    height: 100px;
-    width: 100px;
+    min-height: auto;
+    max-height: 80px;
+    width: 79px;
+    padding-bottom: 10px;
     object-fit: contain;
-    position: relative;
-    left: 0px;
-    top:0px;
     cursor: pointer;
 }
 

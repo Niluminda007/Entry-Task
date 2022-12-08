@@ -3,32 +3,6 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 
 class ValueButton extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSelected: false,
-    };
-  }
-  componentDidMount() {
-    const { id } = this.props;
-    const isCart = id.includes("miniCart") || id.includes("Cart");
-
-    if (isCart) {
-      const [, itemId, values] = id.split("_");
-      const [value, heading] = values.split("-");
-      const {
-        prodcuts: { items },
-      } = this.props;
-      const product = items.find((item) => item.name === itemId);
-      const { chosen_attr } = product;
-      Object.keys(chosen_attr).forEach((attr) => {
-        if (attr === heading && chosen_attr[attr] === value) {
-          this.setState({ isSelected: true });
-        }
-      });
-    }
-  }
-
   handleClick = (e) => {
     const { onClick } = this.props;
     const { id, value } = e.target;
@@ -36,9 +10,29 @@ class ValueButton extends PureComponent {
     onClick(id, value);
   };
 
+  checkIsSelected = () => {
+    let isSelected = false;
+    const { id } = this.props;
+    const isCart = id.includes("miniCart") || id.includes("Cart");
+
+    if (isCart) {
+      const [, , values] = id.split("_");
+      const [value, heading] = values.split("-");
+      const { selected_attrs } = this.props;
+      Object.keys(selected_attrs).forEach((attr) => {
+        if (attr === heading && selected_attrs[attr] === value) {
+          isSelected = true;
+        }
+      });
+    }
+
+    return isSelected;
+  };
+
   render() {
     const { value, id, style, className, disabled } = this.props;
-    const { isSelected } = this.state;
+    const isSelected = this.checkIsSelected();
+
     return (
       <button
         value={value}
